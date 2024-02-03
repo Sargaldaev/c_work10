@@ -3,7 +3,9 @@ import { Box, CardMedia, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store.ts';
 import { useParams } from 'react-router-dom';
-import {  fetchDataById } from '../../store/news/newsThunk.ts';
+import { fetchDataById } from '../../store/news/newsThunk.ts';
+import FormComment from '../FormComment/FormComment.tsx';
+import Comments from '../Comments/Comments.tsx';
 
 const FullNews = () => {
   const {id} = useParams();
@@ -94,8 +96,11 @@ const FullNews = () => {
                 )}
               </Box>
             </Box>
+
           )}
+          <Comments/>
         </Box>
+        <FormComment/>
       </Box>
     </>
   );

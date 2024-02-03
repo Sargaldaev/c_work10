@@ -6,6 +6,11 @@ import Form from './Features/Form/Form.tsx';
 const App = () => {
   return (
     <>
+      <header
+        style={{padding: '20px', background:'#646cff',color:'white', marginBottom: '40px'}}
+      >
+        News
+      </header>
       <Routes>
         <Route path={'/'} element={<News/>}/>
         <Route path={'/addNews'} element={<Form/>}/>

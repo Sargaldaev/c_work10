@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, CardMedia, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { deleteNews, fetchData } from '../../store/news/newsThunk.ts';
+import * as dayjs from 'dayjs';
 
 const News = () => {
   const {news, fetchLoad} = useSelector((state: RootState) => state.news);
@@ -39,6 +40,7 @@ const News = () => {
         <Box
           component="div"
           maxHeight="500px"
+          width="900px"
           sx={{
             overflowY: 'scroll',
             borderRadius: '10px',
@@ -69,47 +71,58 @@ const News = () => {
                   <Box
                     component="div"
                     sx={{
-                      padding: '30px',
+                      display: 'flex',
+                      padding: '10px',
+                      width: '820px',
                       marginBottom: '10px',
                       background: 'rgb(106, 90, 205)',
                       color: 'white',
                       borderRadius: '10px',
                     }}
                   >
-                    <Typography>
-                      <b> Title: </b>
-                      {item.title}
-                    </Typography>
-                    <Typography>
-                      <b> Datetime: </b>
-                      {item.datetime}
-                    </Typography>
 
-                    {!item.image ? (
-                      ''
-                    ) : (
-                      <CardMedia
-                        component="img"
-                        height="200"
-                        width={'200'}
-                        image={`http://localhost:8000/${item.image}`}
-                        alt="Paella dish"
-                      />
-                    )}
+                    <Box >
+                      {!item.image ? (
+                        ''
+                      ) : (
+                        <CardMedia
+                          component="img"
+                          height="150"
+                          width={'150'}
+                          image={`http://localhost:8000/${item.image}`}
+                          alt="Paella dish"
+                        />
+                      )}
+                    </Box>
 
-                    <Button
-                      component={NavLink}
-                      to={`/fullNews/${item.id}`}
-                      variant={'contained'}
-                    >
-                      Read full post
-                    </Button>
-                    <Button
-                      variant={'contained'}
-                      onClick={() => deleteNewsById(`/${item.id}`)}
-                    >
-                      delete
-                    </Button>
+
+                    <Box paddingLeft={'10px'}>
+
+                      <Typography>
+                        <b> Title: </b>
+                        {item.title}
+                      </Typography>
+                      <Typography>
+                        <b> Datetime: </b>
+                        {dayjs(item.datetime).format('YYYY-MM-DD HH:mm:ss')}
+                      </Typography>
+
+                      <Button
+                        component={NavLink}
+                        to={`/fullNews/${item.id}`}
+                        variant={'contained'}
+                        sx={{marginRight:'10px',marginTop:'60px'}}
+                      >
+                        Read full post
+                      </Button>
+                      <Button
+                        variant={'contained'}
+                        onClick={() => deleteNewsById(`/${item.id}`)}
+                        sx={{marginTop:'60px'}}
+                      >
+                        delete
+                      </Button>
+                    </Box>
                   </Box>
                 </Box>
               );
