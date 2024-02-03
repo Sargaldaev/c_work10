@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Box, CardMedia, Typography } from '@mui/material';
+import { useEffect } from 'react';
+import { Box, Button, CardMedia, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store.ts';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { fetchDataById } from '../../store/news/newsThunk.ts';
 import FormComment from '../FormComment/FormComment.tsx';
 import Comments from '../Comments/Comments.tsx';
@@ -31,7 +31,11 @@ const FullNews = () => {
           marginTop: '40px',
         }}
       >
-
+        <Typography
+          sx={{fontSize: '20px',fontWeight:'bold'}}
+        >
+          Full News
+        </Typography>
         <Box
           component="div"
           maxHeight="500px"
@@ -54,7 +58,6 @@ const FullNews = () => {
           border="4px solid #000"
           padding="20px"
         >
-
           {fullNewsLoad ? (
             'Load...'
           ) : (
@@ -97,11 +100,18 @@ const FullNews = () => {
                     alt="Paella dish"
                   />
                 )}
-
               </Box>
-                <FormComment/>
-            </Box>
 
+              <FormComment/>
+              <Button
+                component={Link}
+                to={'/'}
+                variant={'contained'}
+                sx={{marginLeft: '10px'}}
+              >
+                Main
+              </Button>
+            </Box>
           )}
           <Comments/>
         </Box>

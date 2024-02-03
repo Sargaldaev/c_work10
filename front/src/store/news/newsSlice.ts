@@ -17,7 +17,7 @@ const initialState: NewsState = {
   fullNews: null,
   postLoad: false,
   deleteLoad: '',
-  fullNewsLoad: false
+  fullNewsLoad: false,
 };
 
 export const NewsSlice = createSlice({
@@ -58,7 +58,7 @@ export const NewsSlice = createSlice({
     });
 
     builder.addCase(deleteNews.pending, (state, action) => {
-      state.deleteLoad = action.meta.arg || '';
+      state.deleteLoad = action.meta.arg.slice(1)|| '';
     });
     builder.addCase(deleteNews.fulfilled, (state) => {
       state.deleteLoad = '';
@@ -66,7 +66,6 @@ export const NewsSlice = createSlice({
     builder.addCase(deleteNews.rejected, (state) => {
       state.deleteLoad = '';
     });
-
   },
 });
 

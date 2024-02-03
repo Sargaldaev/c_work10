@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../app/store.ts';
 import { Box, Button, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { deleteComment, fetchDataComments } from '../../store/comments/commentsThunk.ts';
+import {
+  deleteComment,
+  fetchDataComments,
+} from '../../store/comments/commentsThunk.ts';
 
 const Comments = () => {
   const {id} = useParams();
@@ -28,15 +31,11 @@ const Comments = () => {
   return (
     <Box
       component="div"
-      maxHeight="500px"
       border="2px solid #000"
       padding="20px"
       marginTop={'40px'}
     >
-      <Typography>
-
-        Comments
-      </Typography>
+      <Typography>Comments</Typography>
       {fetchLoad
         ? 'Load...'
         : comments.map((item) => {
@@ -50,26 +49,34 @@ const Comments = () => {
                   background: 'rgb(106, 90, 205)',
                   color: 'white',
                   borderRadius: '10px',
+                  overflowY: 'scroll',
+                  scrollbarWidth: 'thin',
+                  '&::-webkit-scrollbar': {
+                    width: '12px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: 'lightgray',
+                    borderRadius: '6px',
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    backgroundColor: 'transparent',
+                  }
                 }}
               >
                 <Typography>
                   <b> Author: </b>
                   {item.author}
                 </Typography>
-
                 <Typography>
                   <b> Desc: </b>
                   {item.description}
                 </Typography>
                 <Button
+                  disabled={deleteLoad === item.id.toString()}
                   variant={'contained'}
-                  sx={{
-                    background: 'red',
-                    color: 'white'
-                  }}
                   onClick={() => deleteCommById(`/${item.id}`)}
                 >
-                  {deleteLoad ? 'load' : 'delete'}
+                  {deleteLoad === item.id.toString() ? 'load' : 'delete'}
                 </Button>
               </Box>
             </Box>

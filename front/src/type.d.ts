@@ -13,7 +13,6 @@ export interface IComments {
   description: string;
 }
 
-
 export interface INewsCreate {
   title: string;
   description: string;

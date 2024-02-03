@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IComments } from '../../type';
-import { deleteComment, fetchDataComments, postDataComments } from './commentsThunk.ts';
+import {
+  deleteComment,
+  fetchDataComments,
+  postDataComments,
+} from './commentsThunk.ts';
 
 interface CommentsState {
   comments: IComments[];
@@ -42,9 +46,8 @@ export const CommentsSlice = createSlice({
       state.postLoad = false;
     });
 
-
     builder.addCase(deleteComment.pending, (state, action) => {
-      state.deleteLoad = action.meta.arg || '';
+      state.deleteLoad = action.meta.arg.slice(1) || '';
     });
     builder.addCase(deleteComment.fulfilled, (state) => {
       state.deleteLoad = '';
@@ -52,7 +55,6 @@ export const CommentsSlice = createSlice({
     builder.addCase(deleteComment.rejected, (state) => {
       state.deleteLoad = '';
     });
-
   },
 });
 

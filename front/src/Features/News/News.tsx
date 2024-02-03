@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { AppDispatch, RootState } from '../../app/store.ts';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, CardMedia, Typography } from '@mui/material';
@@ -7,8 +7,9 @@ import { deleteNews, fetchData } from '../../store/news/newsThunk.ts';
 import * as dayjs from 'dayjs';
 
 const News = () => {
-  const {news, fetchLoad} = useSelector((state: RootState) => state.news);
+  const {news, fetchLoad, deleteLoad} = useSelector((state: RootState) => state.news);
   const dispatch: AppDispatch = useDispatch();
+
 
   useEffect(() => {
     dispatch(fetchData());
@@ -30,11 +31,7 @@ const News = () => {
           marginTop: '40px',
         }}
       >
-        <Button
-          component={NavLink}
-          to={`/addNews`}
-          variant={'contained'}
-        >
+        <Button component={NavLink} to={`/addNews`} variant={'contained'}>
           Add News
         </Button>
         <Box
@@ -80,8 +77,7 @@ const News = () => {
                       borderRadius: '10px',
                     }}
                   >
-
-                    <Box >
+                    <Box>
                       {!item.image ? (
                         ''
                       ) : (
@@ -95,9 +91,7 @@ const News = () => {
                       )}
                     </Box>
 
-
                     <Box paddingLeft={'10px'}>
-
                       <Typography>
                         <b> Title: </b>
                         {item.title}
@@ -111,16 +105,20 @@ const News = () => {
                         component={NavLink}
                         to={`/fullNews/${item.id}`}
                         variant={'contained'}
-                        sx={{marginRight:'10px',marginTop:'60px'}}
+                        sx={{marginRight: '10px', marginTop: '60px'}}
                       >
                         Read full post
                       </Button>
+
                       <Button
+                        disabled={deleteLoad === item.id.toString()}
                         variant={'contained'}
                         onClick={() => deleteNewsById(`/${item.id}`)}
-                        sx={{marginTop:'60px'}}
+                        sx={{marginTop: '60px'}}
                       >
-                        delete
+                        {
+
+                          deleteLoad === item.id.toString() ? 'load' : 'delete'}
                       </Button>
                     </Box>
                   </Box>

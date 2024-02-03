@@ -3,7 +3,7 @@ export interface INews {
   title: string;
   description: string;
   image: string | null;
-  datetime: string;
+  datetime?: string;
 }
 
 export interface IComments {

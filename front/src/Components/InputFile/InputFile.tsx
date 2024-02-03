@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Button, Grid, TextField } from '@mui/material';
+import React, { useRef, useState } from "react";
+import { Button, Grid, TextField } from "@mui/material";
 
 interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -7,15 +7,15 @@ interface Props {
   label: string;
 }
 
-const InputFile: React.FC<Props> = ({onChange, name, label}) => {
+const InputFile: React.FC<Props> = ({ onChange, name, label }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [filename, setFilename] = useState('');
+  const [filename, setFilename] = useState("");
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFilename(e.target.files[0].name);
     } else {
-      setFilename('');
+      setFilename("");
     }
 
     onChange(e);
@@ -29,7 +29,7 @@ const InputFile: React.FC<Props> = ({onChange, name, label}) => {
   return (
     <>
       <input
-        style={{display: 'none'}}
+        style={{ display: "none" }}
         type="file"
         name={name}
         onChange={onFileChange}
@@ -45,16 +45,12 @@ const InputFile: React.FC<Props> = ({onChange, name, label}) => {
           />
         </Grid>
         <Grid item>
-          <Button
-            variant="contained"
-            onClick={activateInput}
-          >
+          <Button variant="contained" onClick={activateInput}>
             Browse
           </Button>
         </Grid>
       </Grid>
     </>
-
   );
 };
 

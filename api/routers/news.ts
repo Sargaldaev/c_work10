@@ -1,70 +1,88 @@
 import express from 'express';
-import {INewsCreate} from '../type';
-import fileDb from '../file.db';
 import {imagesUpload} from '../multer';
+import {OkPacketParams} from 'mysql2';
+import {INews} from '../type';
+import mysqlDb from '../MySqlDB';
 
 const newsRouter = express.Router();
 
-newsRouter.post('/', imagesUpload.single('image'), async (req, res) => {
-  try {
-    if (!req.body.title || !req.body.description) {
-      return res.status(400).send({'error': 'title and description required'});
-    }
-
-    const news: INewsCreate = {
-      title: req.body.title,
-      description: req.body.description || null,
-      image: req.file ? 'images/' + req.file.filename : null,
-    };
-
-    const savedCategory = await fileDb.addItemNews(news);
-
-    res.send(savedCategory);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
 newsRouter.get('/', async (req, res) => {
+  const connection = mysqlDb.getConnection();
+
   try {
-    const news = await fileDb.getItems('news');
+    const result = await connection.query('SELECT id, title, image, datetime FROM news');
+    const news = result[0] as INews[];
+
     res.send(news);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send({error: 'Internal Server Error'});
   }
 });
 
 newsRouter.get('/:id', async (req, res) => {
+  const connection = mysqlDb.getConnection();
+
   try {
-    const id = req.params.id;
-    const news = await fileDb.getItems('news', id);
+    const result = await connection.query(
+      'SELECT * FROM news WHERE id = ?',
+      [req.params.id]
+    );
 
-    const newsId = news.find(item => item.id === id);
+    const news = result[0] as INews[];
 
-    if (!newsId) {
-      return res.status(404).send('Not Found');
+    if (!news[0]) {
+      res.status(404).send({error: 'Not Found!'});
+      return;
     }
-    res.send(newsId);
+
+    res.send(news[0]);
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(500).send({error: 'Internal Server Error'});
+  }
+});
+
+newsRouter.post('/', imagesUpload.single('image'), async (req, res) => {
+  try {
+    if (!req.body.title || !req.body.description) {
+      return res.status(400).send({error: 'title and description required'});
+    }
+
+    const newsItem: Omit<INews, 'id'> = {
+      title: req.body.title,
+      description: req.body.description,
+      image: req.file ? 'images/' + req.file.filename : ''
+    };
+
+    const connection = mysqlDb.getConnection();
+
+    const result = await connection.query(
+      'INSERT INTO news (title, description, image) VALUES (?, ?, ?)',
+      [newsItem.title, newsItem.description, newsItem.image]
+    );
+
+    const info = result[0] as OkPacketParams;
+
+    res.send({
+      id: info.insertId,
+      ...newsItem
+    });
+  } catch (error) {
+    res.status(500).send({error: 'Internal Server Error'});
   }
 });
 
 newsRouter.delete('/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const news = await fileDb.deleteItem('news', id);
+  const connection = mysqlDb.getConnection();
 
-    if (!news) {
-      return res.status(404).send('Not Found');
-    }
-    res.send(news);
+  try {
+    await connection.query(
+      'DELETE FROM news WHERE id = ?',
+      [req.params.id]
+    );
+
+    res.send('OK');
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
+    res.status(404).send({error: 'Not Found!'});
   }
 });
 
