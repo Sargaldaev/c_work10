@@ -1,4 +1,12 @@
 {
-  "news": [],
+  "news": [
+    {
+      "title": "title",
+      "description": "desc",
+      "image": "images/200c1ce7-3c32-4eb5-9db1-67799f93062a.png",
+      "id": "c2e74949-3719-4280-96bc-86bd5538c5b3",
+      "datetime": "2024-02-03T07:00:38.128Z"
+    }
+  ],
   "comments": []
 }
