@@ -21,6 +21,7 @@ const FullNews = () => {
   }, [dispatch, id]);
   return (
     <>
+
       <Box
         component="div"
         display="flex"
@@ -30,6 +31,7 @@ const FullNews = () => {
           marginTop: '40px',
         }}
       >
+
         <Box
           component="div"
           maxHeight="500px"
@@ -52,6 +54,7 @@ const FullNews = () => {
           border="4px solid #000"
           padding="20px"
         >
+
           {fullNewsLoad ? (
             'Load...'
           ) : (
@@ -94,13 +97,14 @@ const FullNews = () => {
                     alt="Paella dish"
                   />
                 )}
+
               </Box>
+                <FormComment/>
             </Box>
 
           )}
           <Comments/>
         </Box>
-        <FormComment/>
       </Box>
     </>
   );

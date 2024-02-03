@@ -7,7 +7,7 @@ import { deleteComment, fetchDataComments } from '../../store/comments/commentsT
 
 const Comments = () => {
   const {id} = useParams();
-  const {comments, fetchLoad} = useSelector(
+  const {comments, fetchLoad, deleteLoad} = useSelector(
     (state: RootState) => state.comments,
   );
   const dispatch: AppDispatch = useDispatch();
@@ -63,9 +63,13 @@ const Comments = () => {
                 </Typography>
                 <Button
                   variant={'contained'}
+                  sx={{
+                    background: 'red',
+                    color: 'white'
+                  }}
                   onClick={() => deleteCommById(`/${item.id}`)}
                 >
-                  delete
+                  {deleteLoad ? 'load' : 'delete'}
                 </Button>
               </Box>
             </Box>
