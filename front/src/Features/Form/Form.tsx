@@ -1,32 +1,32 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../app/store.ts";
-import { INewsCreate } from "../../type";
-import { Box, Button, TextField } from "@mui/material";
-import InputFile from "../../Components/InputFile/InputFile.tsx";
-import { Link, useNavigate } from "react-router-dom";
-import { fetchData, postData } from "../../store/news/newsThunk.ts";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../app/store.ts';
+import { INewsCreate } from '../../type';
+import { Box, Button, TextField } from '@mui/material';
+import InputFile from '../../Components/InputFile/InputFile.tsx';
+import { Link, useNavigate } from 'react-router-dom';
+import { fetchData, postData } from '../../store/news/newsThunk.ts';
 
 const Form = () => {
   const [state, setState] = useState<INewsCreate>({
-    title: "",
-    description: "",
+    title: '',
+    description: '',
     image: null,
   });
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { postLoad } = useSelector((state: RootState) => state.news);
+  const {postLoad} = useSelector((state: RootState) => state.news);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
 
-    setState((prevState) => ({ ...prevState, [name]: value }));
+    setState((prevState) => ({...prevState, [name]: value}));
   };
   const onChangeFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, files } = e.target;
+    const {name, files} = e.target;
 
     if (files) {
-      setState((prevState) => ({ ...prevState, [name]: files[0] }));
+      setState((prevState) => ({...prevState, [name]: files[0]}));
     }
   };
 
@@ -34,16 +34,16 @@ const Form = () => {
     e.preventDefault();
     await dispatch(postData(state));
     await dispatch(fetchData());
-    navigate("/");
-    setState({ title: "", description: "", image: null });
+    navigate('/');
+    setState({title: '', description: '', image: null});
   };
   return (
     <>
       <Button
         component={Link}
-        to={"/"}
-        variant={"contained"}
-        sx={{ marginLeft: "10px" }}
+        to={'/'}
+        variant={'contained'}
+        sx={{marginLeft: '10px', display: 'block', width: '20px', margin: 'auto'}}
       >
         Main
       </Button>
@@ -51,13 +51,13 @@ const Form = () => {
         component="form"
         onSubmit={onSubmit}
         display="flex"
-        sx={{ "& > :not(style)": { m: 1 } }}
+        sx={{'& > :not(style)': {m: 1, margin: 'auto',marginTop:'20px'}}}
       >
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-end",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-end',
           }}
         >
           <TextField
@@ -65,7 +65,7 @@ const Form = () => {
             label="Title"
             name="title"
             required
-            sx={{ width: "100%" }}
+            sx={{width: '100%'}}
             onChange={onChange}
             value={state.title}
           />
@@ -76,23 +76,23 @@ const Form = () => {
             multiline
             required
             rows={2}
-            sx={{ width: "100%", marginTop: "5px", marginBottom: "5px" }}
+            sx={{width: '100%', marginTop: '5px', marginBottom: '5px'}}
             name="description"
             onChange={onChange}
             value={state.description}
           />
 
-          <InputFile onChange={onChangeFiles} name={"image"} label={"image"} />
+          <InputFile onChange={onChangeFiles} name={'image'} label={'image'}/>
           <Button
-            type={"submit"}
+            type={'submit'}
             sx={{
-              width: "100%",
-              marginTop: "5px",
-              background: "green",
+              width: '100%',
+              marginTop: '5px',
+              background: 'green',
             }}
-            variant={"contained"}
+            variant={'contained'}
           >
-            {postLoad ? "load" : "Send"}
+            {postLoad ? 'load' : 'Send'}
           </Button>
         </Box>
       </Box>

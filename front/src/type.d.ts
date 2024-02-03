@@ -20,7 +20,7 @@ export interface INewsCreate {
 }
 
 export interface ICommentCreate {
-  newsId: string;
+  newsId?: string;
   author: string | null;
   description: string;
 }
